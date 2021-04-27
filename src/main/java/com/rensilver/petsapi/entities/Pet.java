@@ -1,6 +1,6 @@
-package entities;
+package com.rensilver.petsapi.entities;
 
-import enums.PetType;
+import com.rensilver.petsapi.enums.PetType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

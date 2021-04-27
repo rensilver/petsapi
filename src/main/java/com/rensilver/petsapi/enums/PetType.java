@@ -1,4 +1,4 @@
-package enums;
+package com.rensilver.petsapi.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

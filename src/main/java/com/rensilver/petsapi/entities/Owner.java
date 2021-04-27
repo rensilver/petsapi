@@ -1,4 +1,4 @@
-package entities;
+package com.rensilver.petsapi.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
