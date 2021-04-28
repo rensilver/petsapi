@@ -6,15 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name = "tb_owner")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner {
+public class Owner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +29,6 @@ public class Owner {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cpf;
-
-    @OneToMany
-    private List<Pet> petList = new ArrayList<>();
 }

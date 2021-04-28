@@ -7,13 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "tb_pet")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pet {
+public class Pet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +28,13 @@ public class Pet {
     @Column(nullable = false)
     private Integer age;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PetType petType;
 
-    @ManyToOne
-    private Owner owner;
-
-
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinTable(name = "tb_pet_owner",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name = "owner_id"))
+    Set<Owner> owner = new HashSet<>();
 }
