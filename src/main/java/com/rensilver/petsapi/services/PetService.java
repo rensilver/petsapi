@@ -1,20 +1,73 @@
 package com.rensilver.petsapi.services;
 
-import com.rensilver.petsapi.dto.PetDTO;
+import com.rensilver.petsapi.dto.mapper.PetMapper;
+import com.rensilver.petsapi.dto.request.PetDTO;
+import com.rensilver.petsapi.dto.response.MessageResponseDTO;
 import com.rensilver.petsapi.entities.Pet;
+import com.rensilver.petsapi.exception.PetNotFoundException;
 import com.rensilver.petsapi.repositories.PetRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PetService {
 
-    @Autowired
-    private PetRepository petRepository;
+    private final PetRepository petRepository;
 
-    @Transactional
-    public PetDTO savePet(Pet dto) {
+    private final PetMapper petMapper;
+
+    public MessageResponseDTO createPet(PetDTO petDTO) {
+        Pet pet = petMapper.toModel(petDTO);
+        Pet savedPet = petRepository.save(pet);
+
+        MessageResponseDTO messageResponseDTO = createMessageResponse("Pet created with ID ", savedPet.getId());
+
+        return messageResponseDTO;
+    }
+
+    public PetDTO findById(Long id) throws PetNotFoundException {
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException(id));
+        return petMapper.toDTO(pet);
+    }
+
+    public List<PetDTO> listAll() {
+        List<Pet> animal = petRepository.findAll();
+        return animal.stream()
+                .map(petMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public MessageResponseDTO update(Long id, PetDTO petDTO) throws PetNotFoundException {
+        petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException(id));
+
+        Pet updatedPet = petMapper.toModel(petDTO);
+        Pet savedPet = petRepository.save(updatedPet);
+
+        MessageResponseDTO messageResponseDTO = createMessageResponse("Pet successfully updated with ID ", savedPet.getId());
+        return messageResponseDTO;
+    }
+
+    public void delete(Long id) throws PetNotFoundException {
+        petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException(id));
+        petRepository.deleteById(id);
+    }
+
+    private MessageResponseDTO createMessageResponse(String s, Long id2) {
+        return MessageResponseDTO.builder()
+                .message(s + id2)
+                .build();
+    }
+
+    /* public PetDTO savePet(Pet dto) {
+
         Pet entity = new Pet();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -23,5 +76,5 @@ public class PetService {
         entity.setOwner(dto.getOwner());
         dto = petRepository.save(entity);
         return new PetDTO(dto);
-    }
+    }*/
 }

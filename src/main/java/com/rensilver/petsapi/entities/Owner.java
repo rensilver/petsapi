@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_owner")
+//@Table(name = "tb_owner")
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner implements Serializable {
+public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

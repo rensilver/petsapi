@@ -8,15 +8,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "tb_pet")
+//@Table(name = "tb_pet")
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pet implements Serializable {
+public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +34,9 @@ public class Pet implements Serializable {
     private PetType petType;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinTable(name = "tb_pet_owner",
+   /* @JoinTable(name = "tb_pet_owner",
             joinColumns = @JoinColumn(name = "pet_id"),
-            inverseJoinColumns = @JoinColumn(name = "owner_id"))
-    Set<Owner> owner = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "owner_id"))*/
+   // Set<Owner> owner = new HashSet<>();
+    private List<Owner> owners = new ArrayList<>();
 }
