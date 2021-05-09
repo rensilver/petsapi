@@ -1,7 +1,6 @@
 package com.rensilver.petsapi.dto.request;
 
 import com.rensilver.petsapi.enums.PetType;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -36,13 +34,4 @@ public class PetDTO {
     @Valid
     @NotEmpty
     private List<OwnerDTO> owners;
-
-   /* public PetDTO(Pet entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.age = entity.getAge();
-        this.petType = entity.getPetType();
-        this.owners = entity.getOwner().stream()
-                .map(OwnerDTO::new).collect(Collectors.toList());
-    }*/
 }

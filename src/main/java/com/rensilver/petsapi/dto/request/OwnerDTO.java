@@ -1,7 +1,5 @@
 package com.rensilver.petsapi.dto.request;
 
-
-import com.rensilver.petsapi.entities.Owner;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Data
@@ -31,11 +28,4 @@ public class OwnerDTO {
     @NotEmpty
     @CPF
     private String cpf;
-
-    /*public OwnerDTO(Owner entity) {
-        this.id = entity.getId();
-        this.firstName = entity.getFirstName();
-        this.lastName = entity.getLastName();
-        this.cpf = entity.getCpf();
-    }*/
 }

@@ -25,7 +25,7 @@ public class PetService {
         Pet pet = petMapper.toModel(petDTO);
         Pet savedPet = petRepository.save(pet);
 
-        MessageResponseDTO messageResponseDTO = createMessageResponse("Pet created with ID ", savedPet.getId());
+        MessageResponseDTO messageResponseDTO = createMessageResponse("Pet successfully created with ID ", savedPet.getId());
 
         return messageResponseDTO;
     }
@@ -50,8 +50,8 @@ public class PetService {
         Pet updatedPet = petMapper.toModel(petDTO);
         Pet savedPet = petRepository.save(updatedPet);
 
-        MessageResponseDTO messageResponseDTO = createMessageResponse("Pet successfully updated with ID ", savedPet.getId());
-        return messageResponseDTO;
+        MessageResponseDTO messageResponse = createMessageResponse("Pet successfully updated with ID ", savedPet.getId());
+        return messageResponse;
     }
 
     public void delete(Long id) throws PetNotFoundException {
@@ -65,16 +65,4 @@ public class PetService {
                 .message(s + id2)
                 .build();
     }
-
-    /* public PetDTO savePet(Pet dto) {
-
-        Pet entity = new Pet();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setAge(dto.getAge());
-        entity.setPetType(dto.getPetType());
-        entity.setOwner(dto.getOwner());
-        dto = petRepository.save(entity);
-        return new PetDTO(dto);
-    }*/
 }

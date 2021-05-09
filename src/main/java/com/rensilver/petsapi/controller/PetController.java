@@ -2,7 +2,6 @@ package com.rensilver.petsapi.controller;
 
 import com.rensilver.petsapi.dto.request.PetDTO;
 import com.rensilver.petsapi.dto.response.MessageResponseDTO;
-import com.rensilver.petsapi.entities.Pet;
 import com.rensilver.petsapi.exception.PetNotFoundException;
 import com.rensilver.petsapi.services.PetService;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.io.Serializable;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
@@ -34,7 +34,12 @@ public class PetController implements Serializable {
         return petService.findById(id);
     }
 
-    @PutMapping
+    @GetMapping
+    public List<PetDTO> listAll() {
+        return petService.listAll();
+    }
+
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public MessageResponseDTO update(@PathVariable Long id, @RequestBody @Valid PetDTO petDTO) throws PetNotFoundException {
         return petService.update(id, petDTO);
@@ -42,7 +47,7 @@ public class PetController implements Serializable {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws PetNotFoundException {
+    public void deleteById(@PathVariable Long id) throws PetNotFoundException {
         petService.delete(id);
     }
 }
